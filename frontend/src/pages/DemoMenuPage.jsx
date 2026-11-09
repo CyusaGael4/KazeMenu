@@ -28,8 +28,8 @@ const money = (value) => `${new Intl.NumberFormat('en-US').format(value)} RWF`;
 
 export default function DemoMenuPage() {
   usePageMeta({
-    title: 'Sample menu',
-    description: 'Explore a live KazeMenu sample menu and place a demo dine-in order from table 04. No account or app needed.',
+    title: 'Demo menu',
+    description: 'Explore a live KazeMenu demo menu and place a demo dine-in order from table 04. No account or app needed.',
   });
   const [category, setCategory] = useState('Popular');
   const [search, setSearch] = useState('');
@@ -300,8 +300,7 @@ export default function DemoMenuPage() {
         >
           <div className="dm-placed">
             <span className="dm-placed-icon" aria-hidden="true"><Check size={32} /></span>
-            <p><strong>Demo order {placedOrder.reference}</strong> is confirmed for table 04.</p>
-            <p>The kitchen would now see these dishes on the pass. Nothing was sent anywhere. This is a sample menu.</p>
+            <p><strong>Demo order {placedOrder.reference}</strong> is confirmed for table 04.</p>             <p>The kitchen would now see these dishes on the pass. Nothing was sent anywhere. This is a demo menu.</p>
             <ul>
               {placedOrder.items.map(({ item, quantity }) => (
                 <li key={item.id}><span>{quantity} × {item.name}</span><span>{money(item.price * quantity)}</span></li>

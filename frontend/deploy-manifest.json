@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "compatibilityDate": "2024-01-01",
+  "modules": [
+    {
+      "name": "index.js",
+      "type": "js",
+      "path": "index.js"
+    }
+  ],
+  "assetsDirectory": "dist",
+  "spa": true,
+  "entrypoint": "index.js"
+}

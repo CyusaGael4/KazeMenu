@@ -192,5 +192,3 @@ io.on('connection', (socket) => {
 app.set('io', io);
 
 module.exports = { app, server, io };
-// MUST BE AT THE VERY BOTTOM OF SERVER.JS
-

@@ -59,8 +59,7 @@ const faqGroups = [
   {
     title: 'Accounts and data',
     questions: [
-      ['Can I change my restaurant details after signing up?', 'Open your profile and update the name, location, contact details, description and branding. Changes reach the guest menu immediately; codes and tables are unaffected.'],
-      ['Is the sample menu connected to a real account?', 'No. It uses demo Kigali Grillz data held in your browser, so you can change dishes, tables and orders freely without touching anyone else. It exists to show how the guest menu and the restaurant queue stay in step.'],
+      ['Can I change my restaurant details after signing up?', 'Open your profile and update the name, location, contact details, description and branding. Changes reach the guest menu immediately; codes and tables are unaffected.'],       ['Is the demo menu connected to a real account?', 'No. It uses demo Kigali Grillz data held in your browser, so you can change dishes, tables and orders freely without touching anyone else. It exists to show how the guest menu and the restaurant queue stay in step.'],
       ['Where can I read the terms and privacy policy?', 'Both are linked in the footer of every page. They describe what is stored for a restaurant account and what a guest sees when they order from a table.'],
     ],
   },
@@ -91,8 +90,7 @@ export function FAQPage() {
       <section className="fq-hero">
         <div className="fq-wrap">
           <h1>Questions, answered plainly.</h1>
-          <p className="fq-lede">
-            Setup, price changes, table codes and service. {totalQuestions} answers in {faqGroups.length} topics. If something is still missing, the sample menu shows the whole flow end to end.
+          <p className="fq-lede">             Setup, price changes, table codes and service. {totalQuestions} answers in {faqGroups.length} topics. If something is still missing, the demo menu shows the whole flow end to end.
           </p>
         </div>
       </section>
@@ -178,11 +176,10 @@ export function FAQPage() {
       <section className="fq-close">
         <div className="fq-wrap fq-close-inner">
           <div>
-            <h2>Still deciding?</h2>
-            <p>Order a dish in the sample menu and watch where it ends up: the guest page and the restaurant queue on the same screen.</p>
+            <h2>Still deciding?</h2>             <p>Order a dish in the demo menu and watch where it ends up: the guest page and the restaurant queue on the same screen.</p>
           </div>
           <div className="fq-close-actions">
-            <Button as={Link} to="/demo-menu">Open the sample menu</Button>
+            <Button as={Link} to="/demo-menu">Open the demo menu</Button>
             <Link to="/register" className="ft-link">Create an account <ArrowRight size={17} aria-hidden="true" /></Link>
           </div>
         </div>
@@ -191,7 +188,7 @@ export function FAQPage() {
   );
 }
 
-function DemoLink({ children = 'Explore a sample menu' }) {
+function DemoLink({ children = 'Explore a demo menu' }) {
   return (
     <Link to="/demo-menu" className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-black transition-colors hover:text-primary">
       {children} <ArrowRight size={17} aria-hidden="true" />
@@ -283,9 +280,7 @@ export function HomePage() {
       <section className="hm-sample">
         <div className="hm-wrap hm-sample-grid">
           <div className="hm-sample-copy">
-            <h2 className="hm-h2">A menu you can open right now.</h2>
-            <p className="hm-lede">Sample menu for Kigali Grillz, table 04. Browse the dishes, add an order and place a demo one.</p>
-            <Link to="/demo-menu" className="hm-link">Open the sample menu <ArrowRight size={17} aria-hidden="true" /></Link>
+            <h2 className="hm-h2">A menu you can open right now.</h2>                <p className="hm-lede">Demo menu for Kigali Grillz, table 04. Browse the dishes, add an order and place a demo one.</p>             <Link to="/demo-menu" className="hm-link">Open the demo menu <ArrowRight size={17} aria-hidden="true" /></Link>
           </div>
           <ul className="hm-sample-list" aria-label="Sample dishes">
             {[
@@ -375,8 +370,7 @@ export function FeaturesPage() {
             KazeMenu is four pieces of work joined together: a menu your guests can read, a code on each table, an order queue your team can finish, and a status page between them. Nothing else is in the way.
           </p>
           <div className="ft-hero-actions">
-            <Button as={Link} to="/register">Set up your restaurant</Button>
-            <Link to="/demo-menu" className="ft-link">Try the sample menu <ArrowRight size={17} aria-hidden="true" /></Link>
+            <Button as={Link} to="/register">Set up your restaurant</Button>             <Link to="/demo-menu" className="ft-link">Try the demo menu <ArrowRight size={17} aria-hidden="true" /></Link>
           </div>
         </div>
       </section>
@@ -437,11 +431,9 @@ export function FeaturesPage() {
       <section className="ft-close">
         <div className="ft-wrap ft-close-inner">
           <div>
-            <h2>See it with real dishes before you decide.</h2>
-            <p>The sample menu uses a demo restaurant, table 04 and a full ordering flow.</p>
+            <h2>See it with real dishes before you decide.</h2>             <p>The demo menu uses a demo restaurant, table 04 and a full ordering flow.</p>
           </div>
-          <div className="ft-close-actions">
-            <Button as={Link} to="/demo-menu">Open the sample menu</Button>
+          <div className="ft-close-actions">             <Button as={Link} to="/demo-menu">Open the demo menu</Button>
             <Link to="/faq" className="ft-link">Read the FAQs <ArrowRight size={17} aria-hidden="true" /></Link>
           </div>
         </div>
@@ -592,10 +584,9 @@ export function HowItWorksPage() {
                 <em>Table</em>
               </figcaption>
               <strong>04</strong>
-              <Link to="/demo-menu" className="hiw-table-qr" aria-label="Open the sample menu">
+              <Link to="/demo-menu" className="hiw-table-qr" aria-label="Open the demo menu">
                 <QRCodeSVG value={demoMenuUrl()} size={96} level="H" aria-label="Table 04 QR code" />
-              </Link>
-              <p>Scan to open the sample menu</p>
+              </Link>               <p>Scan to open the demo menu</p>
             </figure>
           </div>
           <ol className="hiw-route" aria-label="The same four moves, timed">
@@ -661,8 +652,7 @@ export function HowItWorksPage() {
             <h2>Set it up once, then add tables as you open them.</h2>
           </div>
           <div className="hiw-closing-actions">
-            <Button as={Link} to="/register">Create a restaurant account</Button>
-            <DemoLink>Order from the sample menu</DemoLink>
+            <Button as={Link} to="/register">Create a restaurant account</Button>             <DemoLink>Order from the demo menu</DemoLink>
           </div>
         </div>
       </section>
