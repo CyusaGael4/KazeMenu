@@ -1,7 +1,9 @@
 const ApiError = require('../utils/ApiError');
 const { verifyToken } = require('../utils/jwt');
 const User = require('../models/User');
-const Membership = require('../models/Membership');
+const connectDB = require('../config/db');
+
+const getMembershipModel = () => require('../models/Membership');
 
 const requireAuth = async (req, res, next) => {
   try {
@@ -12,7 +14,8 @@ const requireAuth = async (req, res, next) => {
     const user = await User.findById(payload.sub);
     if (!user) throw new ApiError(401, 'Invalid session');
 
-    const memberships = await Membership.find({ userId: user._id });
+    await connectDB.getDbReady();
+    const memberships = await getMembershipModel().find({ userId: user._id });
     req.user = user;
     req.memberships = memberships;
     next();

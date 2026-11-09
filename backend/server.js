@@ -10,7 +10,6 @@ const mongoose = require('mongoose');
 const { Server } = require('socket.io');
 
 const connectDB = require('./config/db');
-const Membership = require('./models/Membership');
 const { verifyToken } = require('./utils/jwt');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 const { apiLimiter, authLimiter, publicOrderLimiter, uploadLimiter } = require('./middleware/rateLimiter');
@@ -34,6 +33,8 @@ const io = new Server(server, {
   },
 });
 
+const getMembershipModel = () => require('./models/Membership');
+
 io.use(async (socket, next) => {
   try {
     const cookieHeader = socket.handshake.headers.cookie || '';
@@ -48,7 +49,11 @@ io.use(async (socket, next) => {
       return next(new Error('Invalid restaurant'));
     }
 
-    const membership = await Membership.findOne({
+    await connectDB.getConnectionUri()
+      ? connectDB.getDbReady()
+      : connectDB.connectDB();
+
+    const membership = await getMembershipModel().findOne({
       userId: payload.sub,
       restaurantId,
     });
@@ -122,13 +127,23 @@ app.use('/api/uploads', uploadLimiter);         // Stricter for uploads
 app.use('/api/public/restaurants', publicOrderLimiter); // Stricter for public orders
 app.use('/api', apiLimiter);                    // General API limit
 
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'KazeMenu API healthy',
-    db: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
-    time: new Date().toISOString(),
-  });
+app.get('/api/health', async (req, res) => {
+  try {
+    await connectDB.getDbReady();
+    res.status(200).json({
+      success: true,
+      message: 'KazeMenu API healthy',
+      db: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+      time: new Date().toISOString(),
+    });
+  } catch {
+    res.status(503).json({
+      success: false,
+      message: 'KazeMenu API unhealthy',
+      db: 'disconnected',
+      time: new Date().toISOString(),
+    });
+  }
 });
 
 app.use('/api/auth', require('./routes/authRoutes'));
@@ -146,15 +161,19 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
+// Start the HTTP listener immediately so the serverless function does not
+// block on MongoDB startup. Real connections are opened lazily by the
+// request/socket middleware via getDbReady().
+server.listen(PORT, () => {
+  console.log(`KazeMenu backend running on port ${PORT}`);
+});
+
+// Eagerly connect here only for long-running Node runtimes (local/dev).
+// On Vercel this still resolves quickly because connectDB reuses a warm
+// connection promise and avoids re-connecting on every invocation.
 connectDB()
-  .then(() => {
-    server.listen(PORT, () => {
-      console.log(`KazeMenu backend running on port ${PORT}`);
-    });
-  })
   .catch((err) => {
     console.error('Failed to connect to MongoDB:', err.message);
-    process.exit(1);
   });
 
 // Socket.IO - Restaurant-specific rooms and order events

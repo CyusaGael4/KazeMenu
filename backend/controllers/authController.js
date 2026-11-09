@@ -6,7 +6,9 @@ const { setAuthCookie, clearAuthCookie } = require('../utils/cookies');
 const { uniqueSlug } = require('../utils/slugify');
 const User = require('../models/User');
 const Restaurant = require('../models/Restaurant');
-const Membership = require('../models/Membership');
+const connectDB = require('../config/db');
+
+const getMembershipModel = () => require('../models/Membership');
 
 const handleValidation = (req) => {
   const errors = validationResult(req);
@@ -42,7 +44,8 @@ const register = async (req, res, next) => {
       privacyAcceptedAt: new Date(),
     });
 
-    await Membership.create({ userId: user._id, restaurantId: restaurant._id, role: 'owner' });
+    await connectDB.getDbReady();
+    await getMembershipModel().create({ userId: user._id, restaurantId: restaurant._id, role: 'owner' });
 
     const token = signToken(user._id);
     setAuthCookie(res, token);
@@ -71,7 +74,8 @@ const login = async (req, res, next) => {
     const ok = await bcrypt.compare(password, user.passwordHash);
     if (!ok) throw new ApiError(401, 'Invalid credentials');
 
-    const memberships = await Membership.find({ userId: user._id });
+    await connectDB.getDbReady();
+    const memberships = await getMembershipModel().find({ userId: user._id });
     const token = signToken(user._id);
     setAuthCookie(res, token);
 
@@ -99,7 +103,8 @@ const logout = async (req, res, next) => {
 
 const me = async (req, res, next) => {
   try {
-    const memberships = await Membership.find({ userId: req.user._id });
+    await connectDB.getDbReady();
+    const memberships = await getMembershipModel().find({ userId: req.user._id });
     res.status(200).json({
       success: true,
       data: {
