@@ -9,7 +9,7 @@ const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const { Server } = require('socket.io');
 
-const connectDB = require('./config/db');
+const { connectDB } = require('./config/db');
 const { verifyToken } = require('./utils/jwt');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 const { apiLimiter, authLimiter, publicOrderLimiter, uploadLimiter } = require('./middleware/rateLimiter');
