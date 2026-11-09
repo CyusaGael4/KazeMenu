@@ -127,6 +127,13 @@ app.use('/api/uploads', uploadLimiter);         // Stricter for uploads
 app.use('/api/public/restaurants', publicOrderLimiter); // Stricter for public orders
 app.use('/api', apiLimiter);                    // General API limit
 
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'KazeMenu Server API is active and running!',
+  });
+});
+
 app.get('/api/health', async (req, res) => {
   try {
     await connectDB.getDbReady();
@@ -185,3 +192,5 @@ io.on('connection', (socket) => {
 app.set('io', io);
 
 module.exports = { app, server, io };
+// MUST BE AT THE VERY BOTTOM OF SERVER.JS
+
