@@ -17,7 +17,16 @@ const { requestTimeout } = require('./middleware/timeout');
 const { cacheMiddleware } = require('./middleware/cache');
 const { sanitizeInput } = require('./middleware/sanitize');
 
+// 1. Import the express module first
+const express = require('express');
+
+// 2. Then initialize the application instance
 const app = express();
+
+// 3. Set up the proxy trust wrapper immediately after initialization
+app.set('trust proxy', 1); 
+
+// 4. Bind the application instance to your server constructs
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -32,6 +41,7 @@ const io = new Server(server, {
     credentials: true,
   },
 });
+
 
 const getMembershipModel = () => require('./models/Membership');
 
