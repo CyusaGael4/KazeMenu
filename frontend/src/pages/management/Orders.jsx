@@ -2,11 +2,18 @@ import { useCallback, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../hooks/useToast';
-import api, { API_BASE } from '../../services/api';
+import api from '../../services/api';
 import Button from '../../components/ui/Button';
 import Dialog from '../../components/ui/Dialog';
 import { Skeleton } from '../../components/ui/Skeleton';
 import usePageMeta from '../../hooks/usePageMeta';
+
+const socketUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+export const socket = io(socketUrl, {
+  autoConnect: true,
+  transports: ['websocket', 'polling'],
+});
 
 const nextStatus = {
   PLACED: 'ACCEPTED',
@@ -95,10 +102,7 @@ export default function Orders() {
 
   useEffect(() => {
     if (!restaurantId) return undefined;
-    const socket = io(API_BASE, {
-      withCredentials: true,
-      query: { restaurantId },
-    });
+    socket.auth = { restaurantId };
 
     socket.on('connect', () => setSocketConnected(true));
     socket.on('disconnect', () => setSocketConnected(false));
