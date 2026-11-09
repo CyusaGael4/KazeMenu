@@ -1,0 +1,25 @@
+{
+  "id": "/",
+  "name": "KazeMenu Restaurant",
+  "short_name": "KazeMenu",
+  "description": "Restaurant menu and order management",
+  "start_url": "/app/orders",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fffdf9",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "/icons/kazemenu-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/kazemenu-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
