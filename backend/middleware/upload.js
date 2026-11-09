@@ -2,8 +2,26 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const uploadDir = path.join(__dirname, '..', 'uploads');
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+const isProduction = process.env.NODE_ENV === 'production';
+const uploadDir = isProduction
+  ? '/tmp/uploads'
+  : path.join(__dirname, '..', 'uploads');
+
+try {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch {
+  // In strict serverless environments (e.g. Vercel read-only filesystem),
+  // fall back to the writable /tmp directory at runtime.
+  const fallbackDir = isProduction ? '/tmp/uploads' : uploadDir;
+  try {
+    fs.mkdirSync(fallbackDir, { recursive: true });
+  } catch {
+    // If the fallback also fails, Multer will receive the path as-is and
+    // fail per-upload with a clear error instead of crashing startup.
+  }
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),

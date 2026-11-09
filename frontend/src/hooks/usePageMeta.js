@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const SITE_NAME = 'KazeMenu';
-const DEFAULT_TITLE = 'KazeMenu — Digital menus and dine-in ordering for restaurants';
+const DEFAULT_TITLE = 'KazeMenu | Digital menus and dine-in ordering for restaurants';
 const DEFAULT_DESCRIPTION = 'KazeMenu gives restaurants a digital menu, one QR code per table and a live dine-in order queue. Guests browse and order from their phone while your team manages everything in one place.';
 const DEFAULT_IMAGE = '/og-image.png';
 
@@ -43,7 +43,7 @@ export default function usePageMeta({ title, description, image, type = 'website
     setMeta('property', 'og:title', pageTitle);
     setMeta('property', 'og:description', pageDescription);
     setMeta('property', 'og:image', pageImage);
-    setMeta('property', 'og:image:alt', `${SITE_NAME} — digital menus and dine-in ordering`);
+    setMeta('property', 'og:image:alt', `${SITE_NAME} | digital menus and dine-in ordering`);
     setMeta('property', 'og:url', window.location.href);
 
     setMeta('name', 'robots', noIndex ? 'noindex, nofollow' : 'index, follow');
